@@ -1,0 +1,58 @@
+package controller;
+
+import model.Department;
+import model.Employee;
+import service.EmployeeService;
+
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class ControllerServlet extends HttpServlet {
+
+    @EJB(beanName = "EmployeeServiceImpl")
+    private EmployeeService service;
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action != null) {
+            if (action.equalsIgnoreCase("delete")) {
+                service.delete(getId(req));
+                req.setAttribute("emps", service.getAll());
+            } else if (action.equalsIgnoreCase("update")) {
+                req.setAttribute("emp", service.getById(getId(req)));
+            } else if (action.equalsIgnoreCase("find")) {
+                req.setAttribute("emps", Arrays.asList(service.getById(getId(req))));
+            }
+        } else {
+            req.setAttribute("emps", service.getAll());
+        }
+        RequestDispatcher view = req.getRequestDispatcher("/index.jsp");
+        view.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Employee employee = new Employee();
+        String empno = req.getParameter("empno");
+        employee.setEname(req.getParameter("ename"));
+        employee.setDept(new Department(Integer.parseInt(req.getParameter("deptno"))));
+        if (empno == null || empno.isEmpty()) {
+            service.create(employee);
+        } else {
+            employee.setEmpno(Integer.parseInt(empno));
+            service.update(employee);
+        }
+        resp.sendRedirect("/");
+    }
+
+    private int getId(HttpServletRequest req) {
+        return Integer.parseInt(req.getParameter("id"));
+    }
+}
