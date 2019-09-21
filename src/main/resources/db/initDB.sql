@@ -8,7 +8,7 @@ CREATE TABLE dept
 (
     deptno              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     dname               VARCHAR,
-    local               VARCHAR
+    loc               VARCHAR
 );
 
 CREATE TABLE emp
@@ -23,7 +23,7 @@ DELETE FROM emp;
 DELETE FROM dept;
 ALTER SEQUENCE global_seq RESTART WITH 100;
 
-INSERT INTO dept (dname, local) VALUES
+INSERT INTO dept (dname, loc) VALUES
     ('departament_1', 'Samara'),
     ('departament_2', 'Moscow'),
     ('departament_3', 'new york');

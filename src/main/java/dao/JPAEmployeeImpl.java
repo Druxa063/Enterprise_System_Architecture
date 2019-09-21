@@ -2,17 +2,18 @@ package dao;
 
 
 import model.Employee;
+import org.springframework.stereotype.Repository;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Stateless(name = "JPAEmployeeImpl")
+@Repository
 public class JPAEmployeeImpl implements JPAEmployee {
 
-    EntityManager entityManager = Persistence.createEntityManagerFactory("lab_esa").createEntityManager();
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void create(Employee employee) {

@@ -2,15 +2,15 @@ package service;
 
 import dao.JPAEmployee;
 import model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import java.util.List;
 
-@Stateless(name = "EmployeeServiceImpl")
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @EJB(beanName = "JPAEmployeeImpl")
+    @Autowired
     private JPAEmployee jpaDao;
 
     public void create(Employee employee) {

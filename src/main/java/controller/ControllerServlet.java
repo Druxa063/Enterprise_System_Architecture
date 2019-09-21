@@ -2,43 +2,51 @@ package controller;
 
 import model.Department;
 import model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import service.EmployeeService;
 
-import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ControllerServlet extends HttpServlet {
+@Controller
+public class ControllerServlet {
 
-    @EJB(beanName = "EmployeeServiceImpl")
-    private EmployeeService service;
+    private final EmployeeService service;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @Autowired
+    public ControllerServlet(EmployeeService service) {
+        this.service = service;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String doGet(HttpServletRequest req, Model model) {
         String action = req.getParameter("action");
         if (action != null) {
             if (action.equalsIgnoreCase("delete")) {
                 service.delete(getEmpno(req));
-                req.setAttribute("emps", service.getAll());
+                model.addAttribute("emps", service.getAll());
             } else if (action.equalsIgnoreCase("update")) {
-                req.setAttribute("emp", service.getById(getEmpno(req)));
+                model.addAttribute("emp", service.getById(getEmpno(req)));
+                model.addAttribute("emps", service.getAll());
             } else if (action.equalsIgnoreCase("find")) {
-                req.setAttribute("emps", Arrays.asList(service.getById(getEmpno(req))));
+                model.addAttribute("emps", Arrays.asList(service.getById(getEmpno(req))));
             }
         } else {
-            req.setAttribute("emps", service.getAll());
+            model.addAttribute("emps", service.getAll());
         }
-        RequestDispatcher view = req.getRequestDispatcher("/index.jsp");
-        view.forward(req, resp);
+        return "index";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String doPost(HttpServletRequest req) {
         Employee employee = new Employee();
         String empno = req.getParameter("empno");
         employee.setEname(req.getParameter("ename"));
@@ -49,7 +57,7 @@ public class ControllerServlet extends HttpServlet {
             employee.setEmpno(Integer.parseInt(empno));
             service.update(employee);
         }
-        resp.sendRedirect("");
+        return "redirect:";
     }
 
     private int getEmpno(HttpServletRequest req) {
