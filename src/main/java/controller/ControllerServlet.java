@@ -23,12 +23,12 @@ public class ControllerServlet extends HttpServlet {
         String action = req.getParameter("action");
         if (action != null) {
             if (action.equalsIgnoreCase("delete")) {
-                service.delete(getId(req));
+                service.delete(getEmpno(req));
                 req.setAttribute("emps", service.getAll());
             } else if (action.equalsIgnoreCase("update")) {
-                req.setAttribute("emp", service.getById(getId(req)));
+                req.setAttribute("emp", service.getById(getEmpno(req)));
             } else if (action.equalsIgnoreCase("find")) {
-                req.setAttribute("emps", Arrays.asList(service.getById(getId(req))));
+                req.setAttribute("emps", Arrays.asList(service.getById(getEmpno(req))));
             }
         } else {
             req.setAttribute("emps", service.getAll());
@@ -49,10 +49,10 @@ public class ControllerServlet extends HttpServlet {
             employee.setEmpno(Integer.parseInt(empno));
             service.update(employee);
         }
-        resp.sendRedirect("/");
+        resp.sendRedirect("");
     }
 
-    private int getId(HttpServletRequest req) {
-        return Integer.parseInt(req.getParameter("id"));
+    private int getEmpno(HttpServletRequest req) {
+        return Integer.parseInt(req.getParameter("empno"));
     }
 }

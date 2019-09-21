@@ -5,7 +5,7 @@
     <title>List Employee</title>
 </head>
 <body>
-<form method="post" action="/">
+<form method="post" action="">
     <input type="number" name="empno" value="${emp.empno}" hidden/><br>
     Ename : <input type="text" name="ename" value="${emp.ename}"/><br>
     Number department : <input type="number" name="deptno" value="${emp.dept.deptno}"/><br>
@@ -13,9 +13,10 @@
 </form>
 <br/>
 
-<form method="get" name="findWorker" action="?action=find">
-    Number Worker : <input type="text" name="numberWorker">
-    <button onclick="checkNumber();">Submit</button>
+<form method="get" action="">
+    <input type="text" name="action" value="find" hidden/><br>
+    Number Worker : <input type="text" name="empno">
+    <button>Submit</button>
 </form>
 <br/>
 
@@ -38,22 +39,11 @@
             <td>${emp.dept.deptno}</td>
             <td>${emp.dept.dname}</td>
             <td>${emp.dept.loc}</td>
-            <td><a href="?action=delete&id=${emp.empno}">Delete</a></td>
-            <td><a href="?action=update&id=${emp.empno}">Update</a></td>
+            <td><a href="?action=delete&empno=${emp.empno}">Delete</a></td>
+            <td><a href="?action=update&empno=${emp.empno}">Update</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 </body>
-<script language="javascript" type="text/javascript">
-    function checkNumber() {
-        var x = document.findWorker.numberWorker.value;
-        var patt = /\w/g;
-        if (patt.test(x)) {
-            alert("необходимо ввести число");
-            return false;
-        }
-        document.findWorker.submit();
-    }
-</script>
 </html>
