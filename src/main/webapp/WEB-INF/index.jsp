@@ -3,9 +3,10 @@
 <html>
 <head>
     <title>List Employee</title>
+    <base href="${pageContext.request.contextPath}/"/>
 </head>
 <body>
-<form method="post" action="">
+<form method="post" action="/">
     <input type="number" name="empno" value="${emp.empno}" hidden/><br>
     Ename : <input type="text" name="ename" value="${emp.ename}"/><br>
     Number department : <input type="number" name="deptno" value="${emp.dept.deptno}"/><br>
@@ -13,7 +14,7 @@
 </form>
 <br/>
 
-<form method="get" action="">
+<form method="get" action="/">
     <input type="text" name="action" value="find" hidden/><br>
     Number Worker : <input type="text" name="empno">
     <button>Submit</button>

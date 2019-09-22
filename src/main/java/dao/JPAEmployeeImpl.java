@@ -3,6 +3,7 @@ package dao;
 
 import model.Employee;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,16 +17,19 @@ public class JPAEmployeeImpl implements JPAEmployee {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void create(Employee employee) {
         entityManager.persist(employee);
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         entityManager.remove(getById(id));
     }
 
     @Override
+    @Transactional
     public void update(Employee employee) {
         entityManager.merge(employee);
     }

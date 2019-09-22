@@ -5,15 +5,11 @@ import model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import service.EmployeeService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Arrays;
 
 @Controller
@@ -57,7 +53,7 @@ public class ControllerServlet {
             employee.setEmpno(Integer.parseInt(empno));
             service.update(employee);
         }
-        return "redirect:";
+        return "redirect:/";
     }
 
     private int getEmpno(HttpServletRequest req) {
