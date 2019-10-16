@@ -43,6 +43,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
     <dependency>
         <groupId>org.apache.tomcat</groupId>
         <artifactId>tomcat-servlet-api</artifactId>
@@ -86,7 +92,7 @@
         <artifactId>postgresql</artifactId>
         <version>${postgresql.version}</version>
     </dependency>
-        
+
     </dependencies>
-    
+
 </project>

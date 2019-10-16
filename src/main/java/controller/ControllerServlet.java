@@ -3,6 +3,7 @@ package controller;
 import model.Department;
 import model.Employee;
 import service.EmployeeService;
+import service.JMSService;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -18,12 +19,16 @@ public class ControllerServlet extends HttpServlet {
     @EJB(beanName = "EmployeeServiceImpl")
     private EmployeeService service;
 
+    @EJB(beanName = "JMSService")
+    private JMSService jmsService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if (action != null) {
             if (action.equalsIgnoreCase("delete")) {
                 service.delete(getEmpno(req));
+                jmsService.sendString("Deleted Employee with number");
                 req.setAttribute("emps", service.getAll());
             } else if (action.equalsIgnoreCase("update")) {
                 req.setAttribute("emp", service.getById(getEmpno(req)));
@@ -45,9 +50,11 @@ public class ControllerServlet extends HttpServlet {
         employee.setDept(new Department(Integer.parseInt(req.getParameter("deptno"))));
         if (empno == null || empno.isEmpty()) {
             service.create(employee);
+            jmsService.sendString("Created Employee: " + employee);
         } else {
             employee.setEmpno(Integer.parseInt(empno));
             service.update(employee);
+            jmsService.sendString("Updated Employee: " + employee);
         }
         resp.sendRedirect("");
     }

@@ -6,13 +6,14 @@ import model.Employee;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
 @Stateless(name = "JPAEmployeeImpl")
 public class JPAEmployeeImpl implements JPAEmployee {
 
-    EntityManager entityManager = Persistence.createEntityManagerFactory("lab_esa").createEntityManager();
+    private EntityManager entityManager = Persistence.createEntityManagerFactory("lab_esa").createEntityManager();
 
     @Override
     public void create(Employee employee) {
