@@ -4,6 +4,7 @@ package dao;
 import model.Employee;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
@@ -17,7 +18,10 @@ public class JPAEmployeeImpl implements JPAEmployee {
 
     @Override
     public void create(Employee employee) {
+        System.out.println("Crete Employee");
+        entityManager.getTransaction().begin();
         entityManager.persist(employee);
+        entityManager.getTransaction().commit();
     }
 
     @Override

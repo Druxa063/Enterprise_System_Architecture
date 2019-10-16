@@ -15,27 +15,23 @@ import java.util.Properties;
         name = "MDBService")
 public class MDBService implements MessageListener {
 
-//    private JavaMailSenderImpl mailSender;
     private Properties props;
 
     public MDBService() {
-//        mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(465); //was 587
-//
-//        mailSender.setUsername("party.manager0419@gmail.com");
-//        mailSender.setPassword("PartyManager0419");
-
         props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
     }
 
     @Override
     public void onMessage(javax.jms.Message msg) {
+        props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
         TextMessage message = (TextMessage) msg;
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
