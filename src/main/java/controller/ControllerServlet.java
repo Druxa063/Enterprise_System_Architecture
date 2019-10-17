@@ -26,14 +26,15 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if (action != null) {
+            int empno = getEmpno(req);
             if (action.equalsIgnoreCase("delete")) {
-                service.delete(getEmpno(req));
-                jmsService.sendString("Deleted Employee with number");
+                service.delete(empno);
+                jmsService.sendString("Deleted Employee with number: " + empno);
                 req.setAttribute("emps", service.getAll());
             } else if (action.equalsIgnoreCase("update")) {
-                req.setAttribute("emp", service.getById(getEmpno(req)));
+                req.setAttribute("emp", service.getById(empno));
             } else if (action.equalsIgnoreCase("find")) {
-                req.setAttribute("emps", Arrays.asList(service.getById(getEmpno(req))));
+                req.setAttribute("emps", Arrays.asList(service.getById(empno)));
             }
         } else {
             req.setAttribute("emps", service.getAll());

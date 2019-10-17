@@ -14,7 +14,7 @@ import java.util.List;
 @Stateless(name = "JPAEmployeeImpl")
 public class JPAEmployeeImpl implements JPAEmployee {
 
-    private EntityManager entityManager = Persistence.createEntityManagerFactory("lab_esa").createEntityManager();
+    private EntityManager entityManager = EntityManagerFactoryUtils.getInstance().createEntityManager();
 
     @Override
     public void create(Employee employee) {
@@ -26,12 +26,16 @@ public class JPAEmployeeImpl implements JPAEmployee {
 
     @Override
     public void delete(int id) {
+        entityManager.getTransaction().begin();
         entityManager.remove(getById(id));
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void update(Employee employee) {
+        entityManager.getTransaction().begin();
         entityManager.merge(employee);
+        entityManager.getTransaction().commit();
     }
 
     @Override

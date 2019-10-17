@@ -18,37 +18,30 @@ public class MDBService implements MessageListener {
     private Properties props;
 
     public MDBService() {
-        props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        this.props = new Properties();
+        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.smtps.auth", "true");
+        props.put("mail.smtps.host", "smtp.gmail.com");
+        props.put("mail.smtps.user", "party.manager0419@gmail.com");
     }
 
     @Override
     public void onMessage(javax.jms.Message msg) {
-        props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
         TextMessage message = (TextMessage) msg;
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("party.manager0419@gmail.com", "PartyManager0419");
-                    }
-                });
 
         try {
+            Session session = Session.getDefaultInstance(props);
             Message mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress("party.manager0419@gmail.com"));
-            mimeMessage.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("andru-163@mail.ru"));
+            mimeMessage.addRecipient(Message.RecipientType.TO,
+                    new InternetAddress("andru-163@mail.ru"));
             mimeMessage.setSubject("Testing Subject");
             mimeMessage.setText(message.getText());
 
-            Transport.send(mimeMessage);
+            Transport transport = session.getTransport();
+            transport.connect(null, "");
+            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            transport.close();
 
             System.out.println("Done");
 

@@ -11,18 +11,24 @@ import java.util.List;
 @Stateless(name = "JPALogger")
 public class JPALogger {
 
-    private EntityManager entityManager = Persistence.createEntityManagerFactory("lab_esa").createEntityManager();
+    private EntityManager entityManager = EntityManagerFactoryUtils.getInstance().createEntityManager();
 
     public void create(Logger logger) {
-        entityManager.merge(logger);
+        entityManager.getTransaction().begin();
+        entityManager.persist(logger);
+        entityManager.getTransaction().commit();
     }
 
     public void delete(int id) {
+        entityManager.getTransaction().begin();
         entityManager.remove(getById(id));
+        entityManager.getTransaction().commit();
     }
 
     public void update(Logger logger) {
+        entityManager.getTransaction().begin();
         entityManager.merge(logger);
+        entityManager.getTransaction().commit();
     }
 
     public Logger getById(int id) {
