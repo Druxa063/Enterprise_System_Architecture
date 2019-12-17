@@ -16,17 +16,23 @@ public class JPAEmployeeImpl implements JPAEmployee {
 
     @Override
     public void create(Employee employee) {
+        entityManager.getTransaction().begin();
         entityManager.persist(employee);
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void delete(int id) {
+        entityManager.getTransaction().begin();
         entityManager.remove(getById(id));
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void update(Employee employee) {
+        entityManager.getTransaction().begin();
         entityManager.merge(employee);
+        entityManager.getTransaction().commit();
     }
 
     @Override
