@@ -11,9 +11,8 @@
     <input type="number" name="empno" hidden/><br>
     Ename : <input type="text" name="ename"/><br>
     Number department : <input type="number" name="deptno"/><br>
+    <button onclick="save()">Submit</button>
 </form>
-<br/>
-<button onclick="save()">Submit</button>
 <br/>
 
 Number Worker : <input id="empnoSearch" type="text" name="empno"/>
