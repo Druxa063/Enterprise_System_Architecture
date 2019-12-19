@@ -1,18 +1,12 @@
 package dao;
 
 import model.Employee;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface JPAEmployee {
+public interface JPAEmployee extends CrudRepository<Employee, Integer> {
 
-    void create(Employee employee);
+    List<Employee> findAll();
 
-    void delete(int id);
-
-    void update(Employee employee);
-
-    Employee getById(int id);
-
-    List<Employee> getAll();
 }

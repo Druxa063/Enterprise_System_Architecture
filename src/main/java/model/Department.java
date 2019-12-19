@@ -1,20 +1,29 @@
 package model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "dept")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "deptno")
+    @XmlElement
     private int deptno;
 
     @Column(name = "dname")
+    @XmlElement
     private String dname;
 
     @Column(name = "loc")
+    @XmlElement
     private String loc;
 
     public Department() {

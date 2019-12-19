@@ -3,6 +3,7 @@ package controller;
 import model.Department;
 import model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,9 @@ import java.util.List;
 public class ControllerServlet {
 
     private final EmployeeService service;
+
+    @Autowired
+    private ResourceLoader loader;
 
     @Autowired
     public ControllerServlet(EmployeeService service) {
